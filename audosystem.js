@@ -1,24 +1,27 @@
-var AudioSystem =
+export var AudioSystem =
 {
     blockLength : 512,
     blockTime : 1,
     started : false,
     soundOn : false,
 
+    // Added media stream destination
     init : function ()
     {
         window.AudioContext = window.AudioContext||window.webkitAudioContext;
         this.audioContext = new window.AudioContext();
+        this.audioDestination = this.audioContext.createMediaStreamDestination();
         sampleRate = this.audioContext.sampleRate;
 
         this.blockTime = this.blockLength/sampleRate;
     },
 
+    // Connected script processor to media stream destination
     startSound : function()
     {
         //scriptProcessor may need a dummy input channel on iOS
         this.scriptProcessor = this.audioContext.createScriptProcessor(this.blockLength, 2, 1);
-        this.scriptProcessor.connect(this.audioContext.destination);
+        this.scriptProcessor.connect(this.audioDestination);
         this.scriptProcessor.onaudioprocess = AudioSystem.doScriptProcessor;
 
         var whiteNoise = this.createWhiteNoiseNode(2*sampleRate); // 2 seconds of noise

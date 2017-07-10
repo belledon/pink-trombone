@@ -30,7 +30,7 @@ var Glottis =
     init : function()
     {
         this.setupWaveform(0);
-        this.drawKeyboard();
+        // this.drawKeyboard();
     },
 
     // Probably not needed 
@@ -133,11 +133,9 @@ var Glottis =
 
         if (this.touch == 0)
         {
-            for (var j=0; j<UI.touchesWithMouse.length; j++)
+            for (var j=0; j<Toucher.touches.length; j++)
             {
-                var touch = UI.touchesWithMouse[j];
-                if (!touch.alive) continue;
-                if (touch.y<this.keyboardTop) continue;
+                var touch = Toucher.touches[j];
                 this.touch = touch;
             }
         }
